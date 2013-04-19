@@ -14,7 +14,7 @@ link_directories(${Boost_LIBRARYDIR})
 
 set(SOURCES
    orientation.cpp
-   intersection.cpp
+   has_intersection.cpp
 )
 
 add_executable(cg-test ${SOURCES})
