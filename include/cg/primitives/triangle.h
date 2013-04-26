@@ -1,60 +1,42 @@
 #pragma once
 
-#include "cg/operations/orientation.h"
-#include "cg/primitives/point.h"
-#include <boost/lexical_cast.hpp>
-#include <algorithm>
+#include <cg/primitives/point.h>
+#include <cg/primitives/segment.h>
+
+#include <boost/array.hpp>
 
 namespace cg
 {
-    template <class Scalar>
-    class triangle_2t
-    {
-        typedef triangle_2t<double> triangle_2;
-        typedef triangle_2t<float> triangle_2f;
-        typedef triangle_2t<int> triangle_2i;
-        point_2t<Scalar> a, b, c;
+   template <class Scalar>
+   struct triangle_2t;
 
-        public:
-            triangle_2t (point_2t<Scalar> const &_a, point_2t<Scalar> const &_b, point_2t<Scalar> const &_c)
-                    : a(_a)
-                    , b(_b)
-                    , c(_c)
-            {
-                auto min_point = std::min(std::min(a, b), c);
-                std::swap(a, *min_point);
+   typedef triangle_2t<double> triangle_2;
 
-                if (orientation(a, b, c) == CG_LEFT)
-                    std::swap(b, c);
-            }
+   template <class Scalar>
+   struct triangle_2t
+   {
+      triangle_2t() {}
+      triangle_2t(point_2 const & a, point_2 const & b, point_2 const & c)
+         : pts_( {{a, b, c}} ) {}
 
-            template<class Scalar>
-            point_2t<Scalar> &operator[](int index)
-            {
-                switch(i)
-                {
-                    case(0) : return a;
-                    case(1) : return b;
-                    case(2) : return c;
-                    default :
-                        throw std::logic_error("invalid index: " + boost::lexical_cast<std::string>(i));
-                }
-            }
+      point_2t<Scalar> &         operator [] (size_t id)       { return pts_[id]; }
+      point_2t<Scalar> const &   operator [] (size_t id) const { return pts_[id]; }
 
-            template<class Scalar>
-            point_2t<Scalar> const &operator[](int index)
-            {
-                switch(i)
-                {
-                    case(0) : return a;
-                    case(1) : return b;
-                    case(2) : return c;
-                    default :
-                        throw std::logic_error("invalid index: " + boost::lexical_cast<std::string>(i));
-                }
-            }
+      segment_2t<Scalar> side(size_t id) const { return segment_2t<Scalar>(pts_[(id + 1) % 3], pts_[(id + 2) % 3]); }
 
-    };
+   private:
+      boost::array<point_2t<Scalar>, 3 > pts_;
+   };
 
+   template <class Scalar>
+   bool operator == (triangle_2t<Scalar> const &a, triangle_2t<Scalar> const &b)
+   {
+      return (a[0] == b[0]) && (a[1] == b[1]) && (a[2] == b[2]);
+   }
 
+   template <class Scalar>
+   bool operator != (triangle_2t<Scalar> const &a, triangle_2t<Scalar> const &b)
+   {
+      return !(a == b);
+   }
 }

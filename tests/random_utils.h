@@ -1,9 +1,9 @@
-#pragma once
+
 
 #include <boost/random.hpp>
 #include <cg/primitives/point.h>
 
-std::vector<cg::point_2> uniform_points(size_t count)
+static std::vector<cg::point_2> uniform_points(size_t count)
 {
    boost::random::mt19937 gen;
    boost::random::uniform_real_distribution<> distr;
