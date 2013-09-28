@@ -231,6 +231,6 @@ TEST(quick_hull, uniform)
 {
    using cg::point_2;
 
-   std::vector<point_2> pts = uniform_points(10000000);
+   std::vector<point_2> pts = uniform_points(1000000);
    EXPECT_TRUE(is_convex_hull(pts.begin(), cg::quick_hull(pts.begin(), pts.end()), pts.end()));
 }

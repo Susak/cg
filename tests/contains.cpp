@@ -2,8 +2,10 @@
 
 #include <cg/operations/contains/segment_point.h>
 #include <cg/operations/contains/triangle_point.h>
+#include <bits/algorithmfwd.h>
 #include "cg/operations/contains/convex_polygon_point.h"
 #include "cg/operations/contains/polygon_point.h"
+#include "cg/douglas_peucker/douglas_peucker.h"
 
 
 
