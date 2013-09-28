@@ -26,7 +26,14 @@ namespace cg
          : x(x)
          , y(y)
       {}
+      Scalar length();
    };
+
+   template <class Scalar>
+   Scalar vector_2t<Scalar>::length()
+   {
+       return sqrt((*this) * (*this));
+   }
 
    template <class Scalar>
    Scalar operator ^ (vector_2t<Scalar> const & v1, vector_2t<Scalar> const & v2)
